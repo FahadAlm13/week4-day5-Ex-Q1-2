@@ -56,24 +56,24 @@ public class TaskController {
     }
 
     //Change the task status as done or not done
-    @GetMapping("/check/{index}")
-    public String checkTaskStatus(@PathVariable Integer index) {
+    @PutMapping("/check/{index}")
+    public ApiTask checkTaskStatus(@PathVariable Integer index) {
         try {
-            return tasks.get(index).getStatus();
+            tasks.get(index).setStatus("Done");
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
-        return "Error,You need chose Number between 0 to " + (tasks.size() - 1);
+        return new ApiTask( "Error,You need chose Number between 0 to " + (tasks.size() - 1),"200");
     }
 
     //Search for a task by given title
     @GetMapping("/title/{title}")
-    public String searchTask(@PathVariable String title) {
+    public Task searchTask(@PathVariable String title) {
         for (Task task : tasks) {
             if (task.getTitle().equals(title)) {
-                return task.toString();
+                return task;
             }
         }
-        return title + " not found";
+        return null;
     }
 }
